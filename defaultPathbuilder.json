@@ -4,16 +4,17 @@
     "listCustomBackgrounds": [
         {
             "databaseID": 1,
-            "id": "20edaac8-a8ac-4269-937f-6a8fca0e45c4",
-            "name": "1",
-            "traits": "3rd Party",
+            "id": "d1dadb9b-1d9e-41d1-b1e5-4970e3020f64",
+            "name": "New Background",
+            "traits": "3rd Party, Two, Three",
+            "description": "asdf asdf asdf asdf ",
+            "src": "one adsf source",
             "boost_ref_1": "0",
             "boost_ref_2": "2",
-            "freeFeatID": "GENERAL_Acrobatic Performer",
-            "freeFeatDetail": "f",
-            "skill": "Acrobatics",
-            "lore": "f",
-            "src": "Custom"
+            "skill": "Crafting",
+            "lore": "Dragonmarked Houses",
+            "freeFeatID": "GENERAL_Charming Liar",
+            "freeFeatDetail": "Info ifno "
         }
     ],
     "listCustomArmor": [
@@ -76,5 +77,6 @@
            "languages":"One two three",
            "src":"Eberron",
            "databaseID":1
+       }
     ]
 }

@@ -1,3 +1,5 @@
+from ctypes import util
+from importlib.resources import path
 import json
 from json import JSONDecodeError
 
@@ -39,7 +41,7 @@ class Exporter:
                 ancestry_pack_files: list[str] = foundry_config["ancestry_packs"]
                 self.foundry_ancestries = list()
                 for ancestry_pack_path in ancestry_pack_files:
-                    with open(ancestry_pack_path, "r") as ancestry_pack_file:
+                    with open(ancestry_pack_path, "r", encoding="utf8") as ancestry_pack_file:
                         while True:
                             line = ancestry_pack_file.readline()
                             if not line:
@@ -61,7 +63,7 @@ class Exporter:
                 heritage_pack_files: list[str] = foundry_config["heritage_packs"]
                 self.foundry_heritages = list()
                 for heritage_pack_path in heritage_pack_files:
-                    with open(heritage_pack_path, "r") as heritage_pack_file:
+                    with open(heritage_pack_path, "r", encoding="utf8") as heritage_pack_file:
                         while True:
                             line = heritage_pack_file.readline()
                             if not line:
@@ -83,7 +85,7 @@ class Exporter:
                 feat_pack_files: list[str] = foundry_config["feat_packs"]
                 self.foundry_feats = list()
                 for feat_pack_path in feat_pack_files:
-                    with open(feat_pack_path, "r") as feat_pack_file:
+                    with open(feat_pack_path, "r", encoding="utf8") as feat_pack_file:
                         while True:
                             line = feat_pack_file.readline()
                             if not line:
@@ -105,7 +107,7 @@ class Exporter:
                 item_pack_path: list[str] = foundry_config["item_packs"]
                 self.foundry_items = list()
                 for item_pack_path in item_pack_path:
-                    with open(item_pack_path, "r") as item_pack_file:
+                    with open(item_pack_path, "r", encoding="utf8") as item_pack_file:
                         while True:
                             line = item_pack_file.readline()
                             if not line:
@@ -127,7 +129,7 @@ class Exporter:
                 background_pack_paths: list[str] = foundry_config["background_packs"]
                 self.foundry_backgrounds = list()
                 for background_pack_path in background_pack_paths:
-                    with open(background_pack_path, "r") as item_pack_file:
+                    with open(background_pack_path, "r", encoding="utf8") as item_pack_file:
                         while True:
                             line = item_pack_file.readline()
                             if not line:
@@ -155,9 +157,9 @@ class Exporter:
             for trait in foundry_ancestry["system"]["traits"]["value"]:
                 if trait[:3] == "hb_":
                     trait = trait[3:]
-                traits_list.append(trait)
+                traits_list.append(trait.capitalize())
             if foundry_ancestry["system"]["traits"]["rarity"] != "common":
-                traits_list.append(foundry_ancestry["system"]["traits"]["rarity"])
+                traits_list.append(foundry_ancestry["system"]["traits"]["rarity"].capitalize())
             pathbuilder_ancestry["traits"] = ", ".join(traits_list)
 
             pathbuilder_ancestry["hp"] = foundry_ancestry["system"]["hp"]
@@ -198,15 +200,86 @@ class Exporter:
         else:
             self.pathbuilder["listCustomAncestries"].append(new_pathbuilder_ancestries)
 
+    def convert_heritages(self, wipe_current: bool):
+        new_pathbuilder_heritages = []
+        for foundry_heritage in self.foundry_heritages:
+            pathbuilder_heritage = dict()
+            pathbuilder_heritage["name"] = foundry_heritage["name"]
+            pathbuilder_heritage["id"] = foundry_heritage["_id"]  # id doesn't actually appear to matte
+            pathbuilder_heritage["src"] = foundry_heritage["system"]["source"]["value"]
+            pathbuilder_heritage["databaseID"] = 1
+            pathbuilder_heritage["textDescription"] = foundry_heritage["system"]["description"]["value"]
+
+            traits_list = ["3rd Party"]
+            for trait in foundry_heritage["system"]["traits"]["value"]:
+                if trait[:3] == "hb_":
+                    trait = trait[3:]
+                traits_list.append(trait.capitalize())
+            if foundry_heritage["system"]["traits"]["rarity"] != "common":
+                traits_list.append(foundry_heritage["system"]["traits"]["rarity"].capitalize())
+            pathbuilder_heritage["traits"] = ", ".join(traits_list)
+            new_pathbuilder_heritages.append(pathbuilder_heritage)
+        if wipe_current:
+            self.pathbuilder["listCustomHeritages"] = new_pathbuilder_heritages
+        else:
+            self.pathbuilder["listCustomHeritages"].append(new_pathbuilder_heritages)
+
+    def convert_backgrounds(self, wipe_current: bool):
+        new_pathbuilder_backgrounds = []
+        for foundry_background in self.foundry_backgrounds:
+            pathbuilder_background = dict()
+            pathbuilder_background["name"] = foundry_background["name"]
+            pathbuilder_background["id"] = foundry_background["_id"]  # id doesn't actually appear to matte
+            pathbuilder_background["src"] = foundry_background["system"]["source"]["value"]
+            pathbuilder_background["databaseID"] = 1
+            pathbuilder_background["description"] = foundry_background["system"]["description"]["value"]
+
+            traits_list = ["3rd Party"]
+            for trait in foundry_background["system"]["traits"]["value"]:
+                if trait[:3] == "hb_":
+                    trait = trait[3:]
+                traits_list.append(trait.capitalize())
+            if foundry_background["system"]["traits"]["rarity"] != "common":
+                traits_list.append(foundry_background["system"]["traits"]["rarity"].capitalize())
+            pathbuilder_background["traits"] = ", ".join(traits_list)
+
+            for key in foundry_background["system"]["boosts"]:
+                stat_list = foundry_background["system"]["boosts"][key]
+                index = 1
+                for stat in stat_list:
+                    pathbuilder_background["boost_ref_" + str(index)] = utils.stat_mapping(stat)
+            
+            pathbuilder_background["lore"] = foundry_background["system"]["trainedLore"]
+
+            # Probably incorrect
+            if foundry_background["system"]["trainedSkills"]["value"]:
+                pathbuilder_background["skill"] = foundry_background["system"]["trainedSkills"]["value"][0]
+            elif foundry_background["system"]["trainedSkills"]["custom"]: 
+                pathbuilder_background["skill"] = foundry_background["system"]["trainedSkills"]["custom"]
+            
+            # MANUAL
+            pathbuilder_background["freeFeatDetail"] = "You must add the skill feat yourself."
+
+            new_pathbuilder_backgrounds.append(pathbuilder_background)
+        if wipe_current:
+            self.pathbuilder["listCustomBackgrounds"] = new_pathbuilder_backgrounds
+        else:
+            self.pathbuilder["listCustomBackgrounds"].append(new_pathbuilder_backgrounds)
+
     def write_new_pathbuilder_json(self):
         pathbuilder_file_path: str = self.config["pathbuilder_config"]["target_json_path"]
         with open(pathbuilder_file_path, "w") as pathbuilder_file:
             json.dump(self.pathbuilder, pathbuilder_file, indent=4)
+        print("---")
+        print("WRITE SUCCESSFUL")
+        print("---")
 
 
 def main():
     exporter = Exporter()
     exporter.convert_ancestries(True)
+    exporter.convert_heritages(True)
+    exporter.convert_backgrounds(True)
     exporter.write_new_pathbuilder_json()
 
 

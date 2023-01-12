@@ -1,11 +1,12 @@
 {
     "pathbuilder_config" : {
-        "target_json_path" : ""
+        "target_json_path" : "pathbuilder.json"
     },
     "foundry_config" : {
-        "ancestry_packs" : [],
-        "heritage_packs" : [],
-        "items_packs" : [],
-        "feat_packs" : []
+        "ancestry_packs" : ["./packs/eberron-ancestries.db"],
+        "heritage_packs" : ["./packs/eberron-heritages.db"],
+        "items_packs" : ["./packs/eberron-items.db"],
+        "feat_packs" : ["./packs/eberron-feats.db"],
+        "background_packs" : ["./packs/eberron-backgrounds.db"]
     }
 }
