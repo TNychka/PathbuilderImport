@@ -1,0 +1,80 @@
+{
+    "customPackID": "2bd39a52-c289-4e54-a29d-5c0c719aedd7",
+    "customPackName": "f",
+    "listCustomBackgrounds": [
+        {
+            "databaseID": 1,
+            "id": "20edaac8-a8ac-4269-937f-6a8fca0e45c4",
+            "name": "1",
+            "traits": "3rd Party",
+            "boost_ref_1": "0",
+            "boost_ref_2": "2",
+            "freeFeatID": "GENERAL_Acrobatic Performer",
+            "freeFeatDetail": "f",
+            "skill": "Acrobatics",
+            "lore": "f",
+            "src": "Custom"
+        }
+    ],
+    "listCustomArmor": [
+        {
+            "databaseID": 1,
+            "uniqueIdentiier": "0b96df4a-2142-4aa0-aa6c-1f50c135f7da",
+            "name": "Unnamed Armor",
+            "src": "Custom",
+            "armorTraits": "3rd Party"
+        }
+    ],
+    "listCustomScrolls": [
+        {
+            "databaseID": 1,
+            "uniqueIdentiier": "0004ca45-d1b0-4091-9da5-dc7a79af34cd",
+            "category": 11,
+            "name": "Scroll of Acidic Burst",
+            "itemLevel": 1,
+            "price": 4,
+            "bulk": "L",
+            "traits": "Consumable, Magical, Scroll, Acid, Evocation",
+            "description": "<b>Casting</b> 2 actions somatic, verbal<br><p><b>Area</b> 5-foot emanation</p> \n<p><b>Saving Throw</b> basic Reflex</p> \n<br> \n<p>You create a shell of acid around yourself that immediately bursts outward, dealing 2d6 acid damage to each creature in the area.</p> \n<p><b>Heightened (+1)</b> The damage increases by 2d6.</p>"
+        }
+    ],
+    "listCustomFeats": [
+        {
+            "id": "c8ef8706-ecf9-4646-b064-2bcaf26af8a2",
+            "name": "Asdf",
+            "textDescription": "asdf",
+            "traits": "Asdf, 3rd Party",
+            "src": "Custom",
+            "hashMapRequiredProficiences": {
+                "Acrobatics": 2
+            },
+            "databaseID": 1
+        }
+    ],
+    "listCustomHeritages": [
+        {
+            "id": "3fde0081-f960-4364-8719-a733da39e0e1",
+            "name": "Asdf",
+            "textDescription": "asdf",
+            "traits": "Asdf, 3rd Party",
+            "src": "Customasdf",
+            "databaseID": 1
+        }
+    ],
+    "listCustomAncestries": [
+       {
+           "name":"Ancestry_Test",
+           "id":"129ea75f-3008-4278-9d40-67bf9d23746a",
+           "traits":"One, Two, Three, 3rd Party",
+           "hp":10,
+           "size":1,
+           "speed":30,
+           "abilityBoosts":[0,3],
+           "abilityFlaws":[5],
+           "freeBoosts":2,
+           "description":"<b>Hit Points </b>10<br><b>Size </b>Small<br><b>Speed </b>30<br><b>Ability Boosts </b>Strength, Intelligence, 2 free ability boosts<br><b>Ability Flaws</b>Charisma<br><b>Languages</b> One two three<br>Additional description should go here...",
+           "languages":"One two three",
+           "src":"Eberron",
+           "databaseID":1
+    ]
+}
