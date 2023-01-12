@@ -1,0 +1,11 @@
+{
+    "pathbuilder_config" : {
+        "target_json_path" : ""
+    },
+    "foundry_config" : {
+        "ancestry_packs" : [],
+        "heritage_packs" : [],
+        "items_packs" : [],
+        "feat_packs" : []
+    }
+}
